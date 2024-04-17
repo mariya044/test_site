@@ -7,3 +7,4 @@ class UserModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserModelAdmin)
+

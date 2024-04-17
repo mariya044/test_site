@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from users.views import UserAPIView,UserAPIDetailView
 
-from users.views import UserAPIView, UserAPIDetailView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +27,6 @@ urlpatterns = [
     re_path(r"^auth/", include('djoser.urls.authtoken')),
     path("users/<int:id>/", UserAPIView.as_view()),
     path("usersdetail/<int:pk>/", UserAPIDetailView.as_view())
+
 
 ]
