@@ -1,5 +1,4 @@
 from rest_framework import generics
-from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -52,10 +51,10 @@ class UserAPIView(APIView):
         if not id:
             return Response({"error": "Method DELETE not allowed"})
         try:
-          instance = User.objects.get(id=id)
-          instance.delete()
+            instance = User.objects.get(id=id)
+            instance.delete()
         except:
-          return Response({"user": f"User{str(id)} deleted"})
+            return Response({"user": f"User{str(id)} deleted"})
         return Response({'user': "deleted user" + str(id)})
 
 

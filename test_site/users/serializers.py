@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from users.models import User
-from django_filters import rest_framework as filters, NumberFilter
 
 
 class UserSerializer(serializers.ModelSerializer):
