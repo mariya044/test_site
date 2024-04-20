@@ -15,18 +15,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.template.defaulttags import url
 from django.urls import path, include, re_path
-from users.views import UserAPIView,UserAPIDetailView
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
+from users.views import UserAPIDetailView, UserAPIView
 
-
-
+app_name = "users"
 urlpatterns = [
+    path(
+        'swagger-ui/',
+        TemplateView.as_view(
+            template_name='docs.html',
+            extra_context={'schema_url': 'api_schema'}
+        ),
+        name='swagger-ui'),
+    path('api_schema/', get_schema_view(
+        title='API Schema',
+        description='Guide for the REST API'
+    ), name='api_schema'),
     path('admin/', admin.site.urls),
     path("users/", UserAPIView.as_view()),
     path("auth/", include('djoser.urls')),
     re_path(r"^auth/", include('djoser.urls.authtoken')),
-    path("users/<int:id>/", UserAPIView.as_view()),
-    path("usersdetail/<int:pk>/", UserAPIDetailView.as_view())
+    path("users/<int:id>/", UserAPIDetailView.as_view())
 
 
 ]
