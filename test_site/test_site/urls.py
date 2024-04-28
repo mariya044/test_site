@@ -37,7 +37,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", UserAPIView.as_view(), name="users"),
     path("auth/", include('djoser.urls')),
-    path('auth/',include('djoser.urls.jwt')),
     re_path(r"^auth/", include('djoser.urls.authtoken')),
     path("users/<int:id>/", UserAPIDetailView.as_view(),name="users_detail"),
 ]
