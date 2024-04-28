@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 
 from pathlib import Path
+import logging
 import environ
 import os
 
@@ -61,10 +62,43 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'test_site.urls'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_format': {
+            'format': '{asctime}-{levelname}-{module}-{filename}-{message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': "logging.StreamHandler",
+            'formatter': 'main_format',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'main_format',
+            'filename':"requirements.log"
+        },
+    },
+
+    'loggers': {
+            'main': {
+                'handlers': ['console','file'],
+                'level': 'INFO',
+                'propagate': True
+
+            },
+        },
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,"templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -151,3 +185,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL="users.User"
+EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"

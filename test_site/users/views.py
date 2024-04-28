@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.models import User
 from users.serializers import UserSerializer
+import logging
+
+
+logger=logging.getLogger('main')
 
 
 class UserPagination(PageNumberPagination):
@@ -13,8 +17,10 @@ class UserPagination(PageNumberPagination):
     max_page_size = 2
 
 
+
 class UserAPIView(APIView):
     def get(self, request):
+        logger.info("info")
         user = User.objects.all().values()
         paginator = UserPagination()
         results = paginator.paginate_queryset(user, request)
@@ -35,6 +41,12 @@ class UserAPIView(APIView):
 
 
 class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    logger.info("info")
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'id'
+
+
+class TestLoginView(APIView):
+    def get(self,request):
+        return Response("hellow")
