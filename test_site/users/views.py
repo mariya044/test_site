@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from users.models import User
 from users.serializers import UserSerializer
 import logging
+from django.core.mail import send_mail
 
 
 logger=logging.getLogger('main')
@@ -50,3 +51,5 @@ class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
 class TestLoginView(APIView):
     def get(self,request):
         return Response("hellow")
+
+
