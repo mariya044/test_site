@@ -1,5 +1,9 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.models import User
@@ -18,19 +22,20 @@ class UserPagination(PageNumberPagination):
     max_page_size = 2
 
 
-
 class UserAPIView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name="UserView.html"
+
     def get(self, request):
         logger.info("info")
-        user = User.objects.all().values()
+        users= User.objects.all()
         paginator = UserPagination()
-        results = paginator.paginate_queryset(user, request)
-        return paginator.get_paginated_response({'users': UserSerializer(results, many=True).data})
+        return Response ({"users":users})
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        new_user = User.objects.create(
+        users = User.objects.create(
             username=request.data["username"],
             first_name=request.data["first_name"],
             last_name=request.data["last_name"],
@@ -38,7 +43,7 @@ class UserAPIView(APIView):
             email=request.data["email"],
             phone_number=request.data["phone_number"]
         )
-        return Response({'user': serializer.data})
+        return Response({'users': serializer.data})
 
 
 class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -48,8 +53,7 @@ class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
 
-class TestLoginView(APIView):
-    def get(self,request):
-        return Response("hellow")
-
-
+class SignUp(CreateView):
+    form_class=UserCreationForm
+    template_name="signup.html"
+    success_url = reverse_lazy("login")

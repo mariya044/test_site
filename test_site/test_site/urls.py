@@ -19,7 +19,8 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 from users.views import UserAPIDetailView, UserAPIView
-from users.views import TestLoginView
+
+from users.views import SignUp
 
 app_name = "users"
 urlpatterns = [
@@ -35,8 +36,11 @@ urlpatterns = [
         description='Guide for the REST API'
     ), name='api_schema'),
     path('admin/', admin.site.urls),
-    path("users/", UserAPIView.as_view(), name="users"),
+    path("users/", UserAPIView.as_view(
+            template_name='UserView.html',
+        ), name="users"),
     path("auth/", include('djoser.urls')),
     re_path(r"^auth/", include('djoser.urls.authtoken')),
-    path("users/<int:id>/", UserAPIDetailView.as_view(),name="users_detail"),
+    path("users/<int:id>/", UserAPIDetailView.as_view(), name="users_detail"),
+    path('signup/', SignUp.as_view(), name="signup"),
 ]

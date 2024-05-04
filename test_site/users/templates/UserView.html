@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+     <h1 align="center">List of users</h1>
+{% for user in users %}
+<div class="container" >
+    <h3>Username:{{ user.username }}</h3>
+    <p>email:{{ user.email }}</p>
+</div>
+{% endfor %}
+{% endblock %}
+
