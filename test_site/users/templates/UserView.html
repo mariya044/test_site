@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-     <h1 align="center">List of users</h1>
+     <h1 align="center">Results</h1>
 {% for user in users %}
 <div class="container" >
-    <h3>Username:{{ user.username }}</h3>
+    <a href="{% url "users_detail" id=user.id%}"><h3>Username:{{ user.username }}</h3></a>
     <p>email:{{ user.email }}</p>
 </div>
 {% endfor %}

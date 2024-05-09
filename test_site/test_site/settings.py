@@ -9,8 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
-
+from datetime import timedelta
 from pathlib import Path
 import environ
 import os
@@ -70,7 +69,6 @@ LOGGING = {
             'style': '{',
         },
     },
-
     'handlers': {
         'console': {
             'class': "logging.StreamHandler",
@@ -82,7 +80,6 @@ LOGGING = {
             'filename':"requirements.log"
         },
     },
-
     'loggers': {
             'main': {
                 'handlers': ['console','file'],
@@ -128,6 +125,18 @@ DATABASES = {
 }
 
 
+
+
+
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'users/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'users/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -151,6 +160,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2,
@@ -190,7 +200,7 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='mariabycek2@gmail.com'
 EMAIL_HOST_PASSWORD='xjygeiqerrzzvvfq'
 EMAIL_USE_SSL=True
-
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 DEFAULT_FROM_EMAIL=EMAIL_HOST_USER
 SERVER_EMAIL=EMAIL_HOST_USER
 EMAIL_ADMIN=EMAIL_HOST_USER

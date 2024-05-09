@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -28,32 +30,29 @@ class UserAPIView(APIView):
 
     def get(self, request):
         logger.info("info")
+        serializer = UserSerializer()
         users= User.objects.all()
         paginator = UserPagination()
-        return Response ({"users":users})
+        results=paginator.paginate_queryset(users,request)
+        return Response({'users': users})
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        users = User.objects.create(
+        user = User.objects.create(
             username=request.data["username"],
-            first_name=request.data["first_name"],
-            last_name=request.data["last_name"],
             password=request.data["password"],
             email=request.data["email"],
-            phone_number=request.data["phone_number"]
         )
-        return Response({'users': serializer.data})
+        return Response({'users':serializer.data})
 
 
 class UserAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = "UserDetails.html"
     logger.info("info")
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'id'
 
 
-class SignUp(CreateView):
-    form_class=UserCreationForm
-    template_name="signup.html"
-    success_url = reverse_lazy("login")

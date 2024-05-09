@@ -20,8 +20,6 @@ from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 from users.views import UserAPIDetailView, UserAPIView
 
-from users.views import SignUp
-
 app_name = "users"
 urlpatterns = [
     path(
@@ -38,9 +36,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", UserAPIView.as_view(
             template_name='UserView.html',
-        ), name="users"),
+    ), name="users"),
     path("auth/", include('djoser.urls')),
-    re_path(r"^auth/", include('djoser.urls.authtoken')),
-    path("users/<int:id>/", UserAPIDetailView.as_view(), name="users_detail"),
-    path('signup/', SignUp.as_view(), name="signup"),
+    re_path(r"^auth/",include('djoser.urls.authtoken')),
+    path("users/<int:id>/", UserAPIDetailView.as_view(template_name='UserDetails.html',), name="users_detail"),
+
 ]

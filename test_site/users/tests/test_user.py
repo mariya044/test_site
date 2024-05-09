@@ -11,19 +11,20 @@ class UserTest(APITestCase):
             phone_number="+37525520948",
             first_name="first",
             last_name="last",
-            username="user12"
+            username="user12",
+            password="12345678m"
         )
 
     def test_user_list(self):
         response = self.client.get(reverse("users"))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(response.data["results"]), 1)
-        print(response.json().get("results"))
+        self.assertEquals(len(response.data["users"]), 1)
+
 
     def test_user_detail(self):
         response = self.client.get(reverse("users_detail", kwargs={"id": self.one_user.id}))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(response.json().get("username"), "user12")
+
 
     def test_fail_user_detail(self):
         response = self.client.get(reverse("users_detail", kwargs={"id": 12}))

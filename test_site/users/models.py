@@ -8,3 +8,4 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=40, blank=True, null=True)
 
 
+
