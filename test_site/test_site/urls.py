@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
-from users.views import UserAPIDetailView, UserAPIView
+from users.views import UserAPIDetailView, UserAPIView,UserRegistration
+
 
 app_name = "users"
 urlpatterns = [
@@ -39,6 +40,7 @@ urlpatterns = [
     ), name="users"),
     path("auth/", include('djoser.urls')),
     re_path(r"^auth/",include('djoser.urls.authtoken')),
+    path('registration/',UserRegistration.as_view(),name='registration'),
     path("users/<int:id>/", UserAPIDetailView.as_view(template_name='UserDetails.html',), name="users_detail"),
 
 ]
