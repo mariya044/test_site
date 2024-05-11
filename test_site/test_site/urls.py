@@ -38,8 +38,8 @@ urlpatterns = [
     path("users/", UserAPIView.as_view(
             template_name='UserView.html',
     ), name="users"),
-    path("auth/", include('djoser.urls')),
-    re_path(r"^auth/",include('djoser.urls.authtoken')),
+    # path("auth/", include('djoser.urls')),
+    # re_path(r"^auth/",include('djoser.urls.authtoken')),
     path('registration/',UserRegistration.as_view(),name='registration'),
     path("users/<int:id>/", UserAPIDetailView.as_view(template_name='UserDetails.html',), name="users_detail"),
 
