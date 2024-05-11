@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <a href="{%  url "users" %}"><h1 align="center">Information</h1></a>
+    <div class="container">
+        <h3>Username:{{ username }}</h3>
+        <p>email:{{ email }}</p>
+        <p>First name:{{ first_name }}</p>
+        <p>Last name:{{ last_name }}</p>
+        <p>Phone number:{{ phone_number }}</p>
+    </div>
+{% endblock %}
+

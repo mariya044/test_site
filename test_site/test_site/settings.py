@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
-
+import smtplib
+from datetime import timedelta
 from pathlib import Path
 import environ
 import os
@@ -61,10 +61,41 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'test_site.urls'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_format': {
+            'format': '{asctime}-{levelname}-{module}-{filename}-{message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': "logging.StreamHandler",
+            'formatter': 'main_format',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'main_format',
+            'filename':"requirements.log"
+        },
+    },
+    'loggers': {
+            'main': {
+                'handlers': ['console','file'],
+                'level': 'INFO',
+                'propagate': True
+
+            },
+        },
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,"templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,6 +126,18 @@ DATABASES = {
 }
 
 
+
+
+
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'users/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'users/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'users/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -118,6 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2,
@@ -151,3 +195,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL="users.User"
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER='bycekmaria909@gmail.com'
+EMAIL_HOST_PASSWORD='ndxtmdgboibwhdko '
+DEFAULT_FROM_EMAIL='web@gmail.com'
+
+
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
+
+
+
