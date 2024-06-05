@@ -2,11 +2,9 @@ name: Test Django CI
 
 on:
   push:
-    branches: [feature/addd_users]
+    branches: [feature/add_users]
   pull-request:
     branches: [feature/add_users, main]
-
-
 
 
 jobs:
