@@ -3,7 +3,7 @@ name: Test Django CI
 on:
   push:
     branches: [feature/add_users]
-  pull-request:
+  pull_request:
     branches: [feature/add_users, main]
 
 
@@ -22,4 +22,6 @@ jobs:
         - name: Set up .env
           run: |
             echo "${{secrets.ENV_FILE}}" > test_site/.env
-
+        - name: Run DB
+          run: |
+            docker-compose -f test_site/docker-compose.yml up -d db 
