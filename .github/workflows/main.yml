@@ -27,7 +27,7 @@ jobs:
             docker-compose -f test_site/docker-compose.yml up -d db 
         - name: Wait for DB
           run: |
-            until docker exec -t $(docker ps -q -f name=shop_db_1) pg_isready -h localhost -p 5432; do
+            until docker exec -t $(docker ps -q -f name=shop_db_1) pg_ready -h localhost -p 5432; do
               echo "Waiting for database to be ready...";
               sleep 5;
             done
